@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kho tài liệu— Thư viện tài liệu sưu tầm miễn phí</title>
+
+<!-- Open Graph tags (giúp Facebook/Threads hiển thị preview, tránh bị flag thiếu metadata) -->
+<meta property="og:title" content="Kho tài liệu — Thư viện tài liệu sưu tầm miễn phí" />
+<meta property="og:description" content="Khám phá kho tài nguyên được tổng hợp để giúp bạn làm việc, học tập hiệu quả hơn mỗi ngày" />
+<meta property="og:image" content="https://tpduyminh.github.io/preview.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://tpduyminh.github.io/" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="vi_VN" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Kho tài liệu — Thư viện tài liệu sưu tầm miễn phí" />
+<meta name="twitter:description" content="Khám phá kho tài nguyên được tổng hợp để giúp bạn làm việc, học tập hiệu quả hơn mỗi ngày" />
+<meta name="twitter:image" content="https://tpduyminh.github.io/preview.jpg" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://longct4296.github.io/Timtailieu/" />
+<meta property="og:title" content="Tìm Tài Liệu — Kho template miễn phí đa ngành" />
+<meta property="og:description" content="Tải miễn phí hàng trăm template: menu, nhân sự, tài chính, học tiếng Anh, tiếng Trung, vận hành và nhiều hơn nữa." />
+<meta property="og:image" content="https://longct4296.github.io/Timtailieu/preview.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="vi_VN" />
+<meta property="og:site_name" content="Kho Tài Liệu" />
+
+<style>
+:root {
+color-scheme: light;
+--bg: #f4f7fb;
+--white: #ffffff;
+--text: #202a38;
+--muted: #68778b;
+--border: #dfe7f0;
+--neon: #356eae;
+--neon-hover: #2d5e96;
+--neon-light: #e8f0fa;
+--button-text: #ffffff;
+--panel-bg: #ffffff;
+--input-bg: #fbfcfe;
+--card-hover: #f8faff;
+--badge-text: #315d91;
+--shadow: 0 16px 42px rgba(34,66,106,0.08);
+--glow: radial-gradient(ellipse at 50% -18%, rgba(102,151,207,0.11), transparent 52%);
+--popup-head: linear-gradient(120deg, #35649a, #4f83bd);
+--popup-action-bg: #f3f7fc;
+--popup-action-border: #d9e4f1;
+--overlay-bg: rgba(22,35,53,0.48);
+--radius: 16px;
+--radius-sm: 10px;
+}
+body[data-theme="dark"] {
+color-scheme: dark;
+--bg: #101722;
+--white: #192332;
+--text: #edf3fb;
+--muted: #a3b1c4;
+--border: #303d50;
+--neon: #79a9e0;
+--neon-hover: #8ab8ec;
+--neon-light: #25354a;
+--button-text: #14243a;
+--panel-bg: #192332;
+--input-bg: #111a27;
+--card-hover: #1d2a3b;
+--badge-text: #c4d9f2;
+--shadow: 0 16px 42px rgba(0,0,0,0.22);
+--glow: radial-gradient(ellipse at 50% -18%, rgba(83,128,184,0.14), transparent 52%);
+--popup-head: linear-gradient(120deg, #31527a, #426b9c);
+--popup-action-bg: #202c3c;
+--popup-action-border: #3d4d63;
+--overlay-bg: rgba(6,13,23,0.72);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+background: var(--bg);
+background-image: var(--glow);
+background-attachment: fixed;
+color: var(--text);
+min-height: 100vh;
+}
+button, input { font: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible {
+outline: 3px solid var(--neon);
+outline-offset: 3px;
+}
+
+/* ── PAGE HEADER / SEARCH ── */
+.topbar {
+max-width: 1180px;
+margin: 0 auto;
+padding: 20px 32px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.brand {
+display: inline-flex;
+align-items: center;
+gap: 11px;
+color: var(--text);
+text-decoration: none;
+font-size: 14px;
+font-weight: 700;
+letter-spacing: 0.02em;
+}
+.brand-mark {
+width: 34px;
+height: 34px;
+display: grid;
+place-items: center;
+border-radius: 11px;
+background: var(--neon-light);
+color: var(--neon-hover);
+box-shadow: 0 4px 12px rgba(34,66,106,0.08);
+font-size: 17px;
+}
+.topbar-note { color: var(--muted); font-size: 12px; }
+.theme-toggle {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+padding: 8px 11px;
+border: 1px solid var(--border);
+border-radius: 10px;
+background: var(--panel-bg);
+color: var(--text);
+font-size: 12px;
+cursor: pointer;
+transition: border-color 0.15s, background 0.15s;
+}
+.theme-toggle:hover { border-color: var(--neon); background: var(--neon-light); }
+.topbar-actions { display: flex; align-items: center; gap: 16px; }
+.hero {
+max-width: 1180px;
+margin: 0 auto;
+padding: 54px 32px 32px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 30px;
+transition: padding 0.35s, gap 0.35s;
+}
+.hero.compact { padding-top: 20px; padding-bottom: 18px; gap: 0; }
+.hero-copy { max-width: 720px; text-align: center; transition: opacity 0.2s, transform 0.25s; }
+.eyebrow {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(--neon-hover);
+margin-bottom: 16px;
+}
+.eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--neon); }
+.tagline {
+max-width: 720px;
+font-size: clamp(38px, 5.2vw, 60px);
+font-weight: 700;
+color: var(--text);
+line-height: 1.08;
+margin-bottom: 14px;
+letter-spacing: -0.045em;
+}
+.sub {
+max-width: 600px;
+margin: 0 auto;
+font-size: 14px;
+color: var(--muted);
+line-height: 1.7;
+}
+.hero.compact .hero-copy { display: none; }
+.search-panel {
+width: min(100%, 760px);
+padding: 22px;
+border: 1px solid var(--border);
+border-radius: 20px;
+background: var(--panel-bg);
+box-shadow: var(--shadow);
+}
+.search-caption { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 11px; }
+
+.search-wrap {
+width: 100%;
+position: relative;
+}
+.search-input {
+width: 100%;
+padding: 14px 72px 14px 16px;
+font-size: 14px;
+border: 1.5px solid var(--border);
+border-radius: 12px;
+background: var(--input-bg);
+color: var(--text);
+outline: none;
+transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+-webkit-appearance: none;
+}
+.search-input:focus {
+border-color: var(--neon);
+background: var(--panel-bg);
+box-shadow: 0 0 0 3px color-mix(in srgb, var(--neon) 16%, transparent);
+}
+.search-input:focus-visible { outline: 3px solid color-mix(in srgb, var(--neon) 35%, transparent); outline-offset: 2px; }
+.search-icon {
+position: absolute;
+right: 15px;
+top: 50%;
+transform: translateY(-50%);
+color: var(--muted);
+pointer-events: none;
+}
+.search-icon svg { width: 20px; height: 20px; }
+.search-clear {
+display: none;
+position: absolute;
+right: 43px;
+top: 50%;
+transform: translateY(-50%);
+width: 28px;
+height: 28px;
+border: 0;
+border-radius: 8px;
+background: transparent;
+color: var(--muted);
+cursor: pointer;
+}
+.search-clear.show { display: grid; place-items: center; }
+.search-clear:hover { color: var(--text); background: var(--neon-light); }
+
+.hint {
+margin-top: 18px;
+font-size: 11px;
+color: var(--muted);
+}
+.hint-label { display: block; margin-bottom: 8px; }
+.quick-link {
+display: inline-block;
+background: var(--input-bg);
+border: 1px solid var(--border);
+border-radius: 8px;
+padding: 6px 9px;
+margin: 0 5px 5px 0;
+color: var(--muted);
+cursor: pointer;
+transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.quick-link:hover { border-color: var(--neon); color: var(--neon-hover); background: var(--neon-light); }
+
+/* ── CATEGORY DROPDOWN ── */
+.cat-wrap { position: relative; width: 100%; margin-top: 12px; }
+.cat-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 11px 14px; font-size: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--input-bg); color: var(--muted); cursor: pointer; transition: border-color 0.2s; user-select: none; }
+.cat-btn:hover, .cat-btn.open { border-color: var(--neon); color: var(--text); }
+.cat-btn .arrow { transition: transform 0.2s; font-size: 10px; }
+.cat-btn.open .arrow { transform: rotate(180deg); }
+.cat-dropdown { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; max-height: 320px; overflow-y: auto; background: var(--panel-bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 50; }
+.cat-dropdown.show { display: block; }
+.cat-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 18px; border: 0; border-bottom: 0.5px solid var(--border); background: transparent; text-align: left; font-size: 13px; color: var(--text); cursor: pointer; transition: background 0.12s; }
+.cat-item:last-child { border-bottom: none; }
+.cat-item:hover { background: var(--neon-light); }
+.cat-item .cat-icon { font-size: 16px; width: 24px; text-align: center; }
+.cat-item .cat-count { margin-left: auto; font-size: 11px; color: var(--muted); background: var(--border); padding: 1px 7px; border-radius: 20px; }
+.cat-btn .cat-selected { color: var(--neon-hover); font-weight: 600; }
+
+/* ── RESULTS ── */
+.results {
+max-width: 1180px;
+margin: 0 auto;
+padding: 8px 32px 72px;
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 14px;
+}
+.results-label {
+grid-column: 1 / -1;
+font-size: 12px;
+color: var(--muted);
+padding: 0 2px 3px;
+}
+.results-label strong { color: var(--text); font-weight: 600; }
+.results-label span { display: inline-block; margin-left: 8px; padding: 4px 9px; border-radius: 20px; background: var(--neon-light); color: var(--badge-text); font-size: 11px; }
+.results-label button {
+margin-left: 10px;
+padding: 4px 9px;
+border: 1px solid var(--border);
+border-radius: 20px;
+background: var(--panel-bg);
+color: var(--muted);
+font-size: 11px;
+cursor: pointer;
+}
+.results-label button:hover { border-color: var(--neon); color: var(--neon-hover); }
+.result-item {
+min-width: 0;
+min-height: 202px;
+background: var(--panel-bg);
+border: 1px solid var(--border);
+border-radius: 15px;
+padding: 17px;
+display: flex;
+flex-direction: column;
+align-items: stretch;
+box-shadow: 0 5px 18px rgba(34,66,106,0.045);
+transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s, background 0.18s;
+}
+.result-item:hover {
+border-color: color-mix(in srgb, var(--neon) 58%, var(--border));
+transform: translateY(-2px);
+background: var(--card-hover);
+box-shadow: 0 12px 30px rgba(34,66,106,0.1);
+}
+.item-icon {
+width: 46px;
+height: 46px;
+border-radius: 13px;
+background: var(--neon-light);
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+font-size: 18px;
+}
+.item-icon.pdf { background: #f6ece7; color: #8c5034; }
+.item-icon.word { background: #e8eff8; color: #456780; }
+body[data-theme="dark"] .item-icon.pdf { background: #382b2a; color: #ffd4b6; }
+body[data-theme="dark"] .item-icon.word { background: #263343; color: #b6d8ff; }
+.item-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.item-info { flex: 1; min-width: 0; margin: 17px 0 14px; }
+.item-name { font-size: 14px; font-weight: 600; line-height: 1.45; margin-bottom: 7px; }
+.item-meta { font-size: 11px; color: var(--muted); }
+.item-cat {
+font-size: 11px;
+background: var(--neon-light);
+color: var(--badge-text);
+padding: 5px 9px;
+border-radius: 20px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+max-width: 62%;
+}
+.btn-dl {
+width: 100%;
+margin-top: auto;
+padding: 10px 16px;
+background: var(--neon);
+color: var(--button-text);
+border: none;
+border-radius: 100px;
+font-size: 12px;
+font-weight: 500;
+cursor: pointer;
+white-space: nowrap;
+box-shadow: 0 3px 10px color-mix(in srgb, var(--neon) 16%, transparent);
+transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.btn-dl:hover { background: var(--neon-hover); box-shadow: 0 5px 16px color-mix(in srgb, var(--neon) 22%, transparent); transform: translateY(-1px); }
+.btn-dl:active, .theme-toggle:active, .category-card:active { transform: translateY(0); }
+
+.empty {
+grid-column: 1 / -1;
+text-align: center;
+padding: 48px 20px;
+color: var(--muted);
+font-size: 14px;
+}
+.empty strong { display: block; font-size: 32px; margin-bottom: 8px; }
+.empty button { margin-top: 14px; padding: 9px 14px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel-bg); color: var(--text); cursor: pointer; }
+.empty button:hover { border-color: var(--neon); }
+.results-notice { grid-column: 1 / -1; padding: 22px; border: 1px solid var(--border); border-radius: 14px; background: var(--panel-bg); color: var(--muted); font-size: 13px; }
+.results-notice button { border: 0; background: none; color: var(--neon-hover); font-weight: 600; text-decoration: underline; cursor: pointer; }
+
+@media (max-width: 850px) {
+.results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+.topbar { padding: 18px 20px; }
+.topbar-actions { gap: 0; }
+.theme-toggle { padding: 8px; }
+.theme-toggle span:last-child { display: none; }
+.topbar-note { display: none; }
+.hero { padding: 42px 20px 28px; gap: 24px; }
+.hero.compact { padding-top: 14px; padding-bottom: 18px; gap: 0; }
+.hero-copy { text-align: center; }
+.tagline { margin-left: auto; margin-right: auto; font-size: clamp(36px, 10vw, 50px); }
+.sub { margin-left: auto; margin-right: auto; font-size: 13px; }
+.search-panel { padding: 17px; border-radius: 16px; }
+.browse { padding: 4px 20px 28px; }
+.browse-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.category-card { padding: 12px; }
+.results { grid-template-columns: 1fr; padding: 4px 20px 56px; gap: 11px; }
+.result-item { min-height: 186px; padding: 16px; }
+}
+.browse {
+max-width: 1180px;
+margin: 0 auto;
+padding: 8px 32px 36px;
+}
+.hero.compact + .browse { display: none; }
+.browse-heading {
+display: flex;
+align-items: end;
+justify-content: space-between;
+gap: 16px;
+margin-bottom: 14px;
+}
+.browse-heading h2 { font-size: 17px; font-weight: 650; letter-spacing: -0.02em; }
+.browse-heading p { margin-top: 5px; font-size: 12px; color: var(--muted); }
+.browse-all {
+padding: 7px 10px;
+border: 1px solid var(--border);
+border-radius: 9px;
+background: var(--panel-bg);
+color: var(--muted);
+font-size: 11px;
+cursor: pointer;
+}
+.browse-all:hover { border-color: var(--neon); color: var(--neon-hover); }
+.browse-grid {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 12px;
+}
+.category-card {
+display: flex;
+align-items: center;
+gap: 12px;
+min-width: 0;
+padding: 15px;
+text-align: left;
+color: var(--text);
+background: var(--panel-bg);
+border: 1px solid var(--border);
+border-radius: 13px;
+cursor: pointer;
+transition: border-color 0.18s, background 0.18s, transform 0.18s;
+}
+.category-card:hover {
+transform: translateY(-2px);
+border-color: color-mix(in srgb, var(--neon) 58%, var(--border));
+background: var(--card-hover);
+}
+.category-card:focus-visible, .cat-item:focus-visible { outline-offset: -3px; }
+.category-icon {
+width: 38px;
+height: 38px;
+flex: 0 0 38px;
+display: grid;
+place-items: center;
+border-radius: 11px;
+background: var(--neon-light);
+font-size: 17px;
+}
+.category-copy { min-width: 0; flex: 1; }
+.category-copy strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 600; }
+.category-copy span { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+.category-arrow { color: var(--neon-hover); font-size: 16px; }
+@media (max-width: 620px) {
+.browse { padding: 4px 20px 28px; }
+.browse-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.category-card { padding: 12px; }
+}
+
+/* ── POPUP OVERLAY ── */
+.overlay {
+display: none;
+position: fixed;
+inset: 0;
+background: var(--overlay-bg);
+backdrop-filter: blur(5px);
+z-index: 999;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+.overlay.show { display: flex; }
+
+.popup {
+background: var(--panel-bg);
+border-radius: var(--radius);
+width: 100%;
+max-width: 360px;
+overflow: hidden;
+border: 1px solid var(--border);
+box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+animation: popIn 0.2s ease;
+}
+@keyframes popIn {
+from { opacity: 0; transform: scale(0.95) translateY(8px); }
+to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.popup-header {
+background: var(--popup-head);
+padding: 18px 20px 16px;
+position: relative;
+}
+.popup-header .label {
+font-size: 11px;
+color: rgba(255,255,255,0.8);
+margin-bottom: 4px;
+}
+.popup-header h3 {
+font-size: 15px;
+font-weight: 600;
+color: #fff;
+line-height: 1.4;
+}
+.popup-close {
+position: absolute;
+top: 14px;
+right: 16px;
+background: rgba(255,255,255,0.2);
+border: none;
+color: #fff;
+width: 26px;
+height: 26px;
+border-radius: 50%;
+font-size: 14px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.popup-body { padding: 18px 20px 0; }
+.popup-body p {
+font-size: 13px;
+color: var(--muted);
+line-height: 1.6;
+margin-bottom: 16px;
+}
+
+.aff-btn {
+display: flex;
+align-items: center;
+gap: 12px;
+width: 100%;
+padding: 13px 16px;
+background: var(--popup-action-bg);
+border: 1.5px solid var(--popup-action-border);
+border-radius: var(--radius-sm);
+cursor: pointer;
+margin-bottom: 16px;
+transition: background 0.15s;
+text-decoration: none;
+}
+.aff-btn:hover { border-color: var(--neon); }
+.aff-logo {
+width: 36px;
+height: 36px;
+border-radius: 8px;
+background: var(--neon-light);
+color: var(--neon-hover);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 18px;
+flex-shrink: 0;
+}
+.aff-text { flex: 1; text-align: left; }
+.aff-text strong { display: block; font-size: 13px; color: var(--text); }
+.aff-text span { font-size: 11px; color: var(--muted); }
+.aff-arrow { color: var(--neon-hover); font-size: 18px; }
+
+.popup-footer {
+padding: 0 20px 20px;
+}
+.btn-confirm {
+width: 100%;
+padding: 12px;
+font-size: 14px;
+font-weight: 500;
+background: var(--neon);
+color: var(--button-text);
+border: none;
+border-radius: 100px;
+cursor: pointer;
+box-shadow: 0 4px 12px color-mix(in srgb, var(--neon) 16%, transparent);
+transition: background 0.15s, box-shadow 0.15s;
+}
+.btn-confirm:hover { background: var(--neon-hover); }
+.btn-confirm:disabled { opacity: 0.68; cursor: wait; }
+.download-progress { display: none; margin-top: 14px; }
+.download-progress.show { display: block; }
+.progress-copy {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 12px;
+margin-bottom: 8px;
+color: var(--muted);
+font-size: 12px;
+}
+.progress-track {
+height: 7px;
+overflow: hidden;
+border-radius: 99px;
+background: var(--neon-light);
+}
+.progress-fill {
+width: 0;
+height: 100%;
+border-radius: inherit;
+background: var(--neon);
+transition: width 0.05s linear;
+}
+.progress-cancel {
+margin-top: 9px;
+padding: 4px 0;
+border: 0;
+background: transparent;
+color: var(--muted);
+font-size: 11px;
+text-decoration: underline;
+cursor: pointer;
+}
+.progress-cancel:hover { color: var(--text); }
+.download-fallback {
+display: none;
+margin-top: 12px;
+color: var(--muted);
+font-size: 12px;
+line-height: 1.5;
+}
+.download-fallback.show { display: block; }
+.download-fallback a { color: var(--neon-hover); font-weight: 600; }
+
+/* ── TOAST ── */
+.toast {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%) translateY(60px);
+background: var(--panel-bg);
+color: var(--text);
+padding: 10px 22px;
+border-radius: 100px;
+font-size: 13px;
+border: 1px solid var(--border);
+box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+z-index: 9999;
+transition: transform 0.3s ease, opacity 0.3s;
+opacity: 0;
+pointer-events: none;
+}
+.toast.show {
+transform: translateX(-50%) translateY(0);
+opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<a class="brand" href="./" aria-label="Kho Tài Liệu - trang chủ">
+<span class="brand-mark">🔥</span>
+<span>Kho Tài Liệu</span>
+</a>
+<div class="topbar-actions">
+<span class="topbar-note">Tài nguyên hữu ích cho công việc và học tập</span>
+<button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+<span id="themeIcon" aria-hidden="true">☾</span><span id="themeLabel">Giao diện tối</span>
+</button>
+</div>
+</header>
+
+<main>
+<section class="hero" id="hero">
+<div class="hero-copy">
+<div class="eyebrow">Thư viện tài nguyên miễn phí</div>
+<h1 class="tagline">Tài liệu hữu ích<br>Sẵn sàng phát triển</h1>
+<p class="sub">Khám phá kho tài nguyên được tổng hợp để giúp bạn làm việc, học tập hiệu quả hơn mỗi ngày</p>
+</div>
+<div class="search-panel">
+<label class="search-caption" for="searchInput">Bạn đang tìm tài liệu gì?</label>
+<div class="search-wrap">
+<input
+class="search-input"
+id="searchInput"
+type="text"
+placeholder="Thử tìm: báo cáo, doanh thu, học tiếng Anh..."
+autocomplete="off"
+aria-controls="results"
+/>
+<button class="search-clear" id="searchClear" type="button" aria-label="Xóa nội dung tìm kiếm">×</button>
+<span class="search-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+</svg>
+</span>
+</div>
+
+<div class="hint">
+<span class="hint-label">Tìm phổ biến</span>
+<button class="quick-link" type="button" onclick="quickSearch('Ielts')">Ielts</button>
+<button class="quick-link" type="button" onclick="quickSearch('Ebook')">Ebook</button>
+<button class="quick-link" type="button" onclick="quickSearch('Tiếng Trung')">Tiếng Trung</button>
+<button class="quick-link" type="button" onclick="quickSearch('Marketing')">Marketing</button>
+<button class="quick-link" type="button" onclick="quickSearch('Edit video')">Edit video</button>
+<button class="quick-link" type="button" onclick="quickSearch('Học MOS')">Học MOS</button>
+</div>
+
+<div class="cat-wrap" id="catWrap">
+<button class="cat-btn" id="catBtn" type="button" aria-expanded="false" aria-controls="catDropdown" onclick="toggleCat()">
+<span id="catLabel">📂 Duyệt tất cả danh mục</span>
+<span class="arrow">▼</span>
+</button>
+<div class="cat-dropdown" id="catDropdown" role="group" aria-label="Danh mục tài liệu"></div>
+</div>
+</div>
+</section>
+
+<section class="browse" id="browse">
+<div class="browse-heading">
+<div>
+<h2>Khám phá theo danh mục</h2>
+<p>Chọn chủ đề để tìm nhanh tài liệu phù hợp</p>
+</div>
+<button class="browse-all" type="button" onclick="openAllCategories()">Xem tất cả</button>
+</div>
+<div class="browse-grid" id="browseGrid"></div>
+</section>
+<section class="results" id="results" aria-live="polite" aria-busy="true"><div class="results-notice">Đang tải thư viện tài liệu…</div></section>
+</main>
+
+<!-- POPUP -->
+<div class="overlay" id="overlay">
+<div class="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+<div class="popup-header">
+<div class="label">TÀI LIỆU ĐƯỢC CHỌN</div>
+<h3 id="popupTitle">—</h3>
+<button class="popup-close" type="button" aria-label="Đóng cửa sổ" onclick="closePopup()">✕</button>
+</div>
+<div class="popup-body">
+<p class="download-note">Shopee sẽ mở ở tab mới. Sau khi xem Shopee, quay lại trang này để bắt đầu thanh tải 3 giây và mở tài liệu trong tab mới.</p>
+<a class="aff-btn" id="affLink" href="https://s.shopee.vn/BUg1TXUUo" target="_blank" rel="noopener noreferrer" onclick="doDownload(event)">
+<div class="aff-logo">↗</div>
+<div class="aff-text">
+<strong>Mở Shopee ngay</strong>
+<span>Liên kết hỗ trợ thư viện tài liệu</span>
+</div>
+<span class="aff-arrow">→</span>
+</a>
+</div>
+<div class="popup-footer">
+<button class="btn-confirm" id="downloadButton" type="button" onclick="doDownload(event)">Xem Shopee → Tải file</button>
+<div class="download-progress" id="downloadProgress">
+<div class="progress-copy"><span id="progressMessage" aria-live="polite">Đang mở Shopee…</span><span id="progressSeconds">3 giây</span></div>
+<div class="progress-track" id="progressTrack" role="progressbar" aria-label="Thời gian chờ mở tài liệu" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+<button class="progress-cancel" type="button" onclick="cancelDownload()">Hủy</button>
+</div>
+<p class="download-fallback" id="downloadFallback">Trình duyệt đã chặn mở tab tài liệu. <a id="manualDownload" href="#" target="_blank" rel="noopener noreferrer">Nhấn vào đây để mở tài liệu</a>.</p>
+</div>
+</div>
+</div>
+
+<div class="toast" id="toast">⬇ Đang mở file tải xuống...</div>
+
+<script>
+const AFFILIATE_URL = 'https://s.shopee.vn/BUg1TXUUo';
+
+let templates = [];
+let currentItem = null;
+let currentCategory = null;
+let previousFocus = null;
+let templatesLoadError = false;
+let downloadTimer = null;
+let downloadTab = null;
+let downloadStartedAt = 0;
+let downloadBusy = false;
+let downloadShopeeOpened = false;
+let downloadWaitingForReturn = false;
+let downloadPageWasLeft = false;
+let pendingDownloadUrl = null;
+
+const fileIcons = {
+  excel: ['📊', 'spreadsheet'],
+  sheets: ['📊', 'spreadsheet'],
+  pdf: ['📄', 'pdf'],
+  word: ['📝', 'word'],
+  docs: ['📝', 'word'],
+  lark: ['📑', 'document'],
+  drive: ['📁', 'folder'],
+};
+
+function escapeHTML(value) {
+return String(value ?? '').replace(/[&<>"']/g, char => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+}[char]));
+}
+
+function updateTheme(theme) {
+document.documentElement.dataset.theme = theme;
+document.body.dataset.theme = theme;
+const isDark = theme === 'dark';
+document.getElementById('themeToggle').setAttribute('aria-pressed', String(isDark));
+document.getElementById('themeToggle').setAttribute('aria-label', `Chuyển sang giao diện ${isDark ? 'sáng' : 'tối'}`);
+document.getElementById('themeIcon').textContent = isDark ? '☀' : '☾';
+document.getElementById('themeLabel').textContent = isDark ? 'Giao diện sáng' : 'Giao diện tối';
+try {
+localStorage.setItem('template-theme', theme);
+} catch (error) {
+console.warn('Không thể lưu tùy chọn giao diện:', error);
+}
+}
+
+let savedTheme = 'light';
+try {
+savedTheme = localStorage.getItem('template-theme') || 'light';
+} catch (error) {
+console.warn('Không thể đọc tùy chọn giao diện đã lưu:', error);
+}
+updateTheme(savedTheme === 'dark' ? 'dark' : 'light');
+document.getElementById('themeToggle').addEventListener('click', () => {
+updateTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+});
+document.getElementById('affLink').href = AFFILIATE_URL;
+
+async function loadTemplates() {
+try {
+const res = await fetch('./templates.json?' + Date.now());
+if (!res.ok) throw new Error(`HTTP ${res.status}`);
+templates = await res.json();
+if (!Array.isArray(templates)) throw new Error('Dữ liệu template không đúng định dạng.');
+} catch(e) {
+templatesLoadError = true;
+console.error('Không thể tải danh sách template:', e);
+templates = [];
+document.getElementById('searchInput').disabled = true;
+document.getElementById('searchClear').disabled = true;
+document.getElementById('catBtn').disabled = true;
+const results = document.getElementById('results');
+results.setAttribute('aria-busy', 'false');
+results.innerHTML = '<div class="results-notice">Không tải được thư viện tài liệu. Vui lòng <button type="button" onclick="location.reload()">tải lại trang</button> để thử lại.</div>';
+}
+return templates;
+}
+
+function normalize(str) {
+return str.toLowerCase()
+.replace(/đ/g, 'd')
+.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function search(query) {
+if (!query.trim()) return [];
+const words = normalize(query).split(/\s+/).filter(Boolean);
+return templates.filter(t => {
+const haystack = normalize(
+t.name + ' ' + (t.keywords||[]).join(' ') + ' ' + t.category
+);
+return words.every(w => haystack.includes(w));
+});
+}
+
+function updateSearchClear() {
+document.getElementById('searchClear').classList.toggle('show', Boolean(document.getElementById('searchInput').value));
+}
+
+function getFilteredResults(query, category = currentCategory) {
+const matches = query.trim() ? search(query) : templates;
+return matches.filter(t => !category || t.category === category);
+}
+
+function renderResults(items, query, category = currentCategory) {
+const el = document.getElementById('results');
+const hasQuery = Boolean(query.trim());
+const hasCategory = Boolean(category);
+el.setAttribute('aria-busy', 'false');
+document.getElementById('hero').classList.toggle('compact', hasQuery || hasCategory);
+
+if (!hasQuery && !hasCategory) {
+el.innerHTML = '';
+return;
+}
+
+if (!items.length) {
+el.innerHTML = `<div class="empty"><strong>⌕</strong>${hasQuery ? `Không tìm thấy “<b>${escapeHTML(query)}</b>”` : `Chưa có tài liệu trong danh mục “<b>${escapeHTML(category)}</b>”`}<br>Thử từ khóa khác hoặc xóa bộ lọc để khám phá thêm.<br><button type="button" onclick="resetFilters()">Xóa bộ lọc</button></div>`;
+return;
+}
+
+const resultTitle = hasQuery ? `Kết quả cho <strong>“${escapeHTML(query)}”</strong>` : `Danh mục <strong>${escapeHTML(category)}</strong>`;
+const categoryFilter = hasCategory ? `<button type="button" onclick="clearCategoryFilter()">Bỏ lọc: ${escapeHTML(category)} ×</button>` : '';
+el.innerHTML = `<div class="results-label">${resultTitle} · <span>${items.length} tài liệu</span>${categoryFilter}</div>` +
+items.map(t => `
+     <article class="result-item">
+       <div class="item-top">
+         <div class="item-icon ${fileIcons[String(t.type).toLowerCase()]?.[1] || 'folder'}">${fileIcons[String(t.type).toLowerCase()]?.[0] || '📁'}</div>
+         <span class="item-cat">${escapeHTML(t.category)}</span>
+       </div>
+       <div class="item-info">
+         <div class="item-name">${escapeHTML(t.name)}</div>
+         <div class="item-meta">${escapeHTML(t.type)} · ${escapeHTML(t.size)}</div>
+       </div>
+       <button class="btn-dl" type="button" aria-label="Tải ${escapeHTML(t.name)}" onclick="openPopup(${Number(t.id)})">Tải tài liệu</button>
+     </article>
+   `).join('');
+}
+
+function openPopup(id) {
+currentItem = templates.find(t => t.id === id);
+if (!currentItem) return;
+resetDownloadUI();
+previousFocus = document.activeElement;
+document.getElementById('popupTitle').textContent = currentItem.name;
+document.getElementById('overlay').classList.add('show');
+document.getElementById('downloadButton').focus();
+}
+
+function closePopup() {
+if (downloadBusy) cancelDownload();
+document.getElementById('overlay').classList.remove('show');
+if (previousFocus?.isConnected) previousFocus.focus();
+}
+
+function doDownload(event) {
+if (downloadBusy) {
+if (event?.currentTarget?.id === 'affLink' && !downloadShopeeOpened) {
+downloadShopeeOpened = true;
+document.getElementById('progressMessage').textContent = 'Đang mở Shopee. Quay lại trang này để tải tài liệu.';
+return;
+}
+if (event) event.preventDefault();
+return;
+}
+if (event) event.preventDefault();
+if (!currentItem) return;
+if (typeof currentItem.drive_url !== 'string' || !currentItem.drive_url.trim()) {
+showToast('Không tìm thấy đường dẫn tài liệu.');
+return;
+}
+
+pendingDownloadUrl = currentItem.drive_url;
+downloadWaitingForReturn = true;
+downloadPageWasLeft = false;
+downloadBusy = true;
+downloadShopeeOpened = false;
+let shopeeTab = null;
+downloadTab = null;
+try {
+shopeeTab = window.open(AFFILIATE_URL, '_blank');
+if (shopeeTab) shopeeTab.opener = null;
+} catch (error) {
+console.warn('Không thể mở Shopee:', error);
+}
+try {
+downloadTab = window.open('about:blank', '_blank');
+if (downloadTab) {
+downloadTab.opener = null;
+downloadTab.document.title = 'Tài liệu đang chờ';
+downloadTab.document.body.textContent = 'Quay lại trang thư viện để bắt đầu mở tài liệu.';
+}
+} catch (error) {
+console.warn('Không thể chuẩn bị tab tài liệu:', error);
+}
+if (shopeeTab) {
+try {
+shopeeTab.focus();
+} catch (error) {
+console.warn('Không thể chuyển sang tab Shopee:', error);
+}
+}
+
+const manualDownload = document.getElementById('manualDownload');
+manualDownload.href = pendingDownloadUrl;
+document.getElementById('downloadFallback').classList.remove('show');
+document.getElementById('downloadProgress').classList.add('show');
+document.getElementById('downloadButton').disabled = true;
+document.getElementById('progressMessage').textContent = shopeeTab
+? 'Shopee đã mở. Quay lại trang này để bắt đầu tải tài liệu.'
+: 'Shopee bị chặn. Hãy mở Shopee bên trên rồi quay lại trang này.';
+document.getElementById('progressSeconds').textContent = 'Chờ quay lại';
+document.getElementById('progressFill').style.width = '0%';
+document.getElementById('progressTrack').setAttribute('aria-valuenow', '0');
+downloadShopeeOpened = Boolean(shopeeTab);
+}
+
+function markDownloadPageLeft() {
+if (downloadWaitingForReturn) downloadPageWasLeft = true;
+}
+
+function startDownloadCountdown() {
+if (!downloadWaitingForReturn || !downloadPageWasLeft || downloadTimer !== null) return;
+downloadWaitingForReturn = false;
+downloadStartedAt = Date.now();
+document.getElementById('progressMessage').textContent = 'Đang chuẩn bị mở tài liệu…';
+updateDownloadProgress();
+downloadTimer = window.setInterval(updateDownloadProgress, 50);
+}
+
+function updateDownloadProgress() {
+const duration = 3000;
+const elapsed = Math.min(Date.now() - downloadStartedAt, duration);
+const percent = Math.round((elapsed / duration) * 100);
+const secondsLeft = Math.ceil((duration - elapsed) / 1000);
+document.getElementById('progressFill').style.width = `${percent}%`;
+document.getElementById('progressTrack').setAttribute('aria-valuenow', String(percent));
+document.getElementById('progressSeconds').textContent = secondsLeft
+? `${secondsLeft} giây`
+: 'Đang mở…';
+if (elapsed < duration) return;
+
+window.clearInterval(downloadTimer);
+downloadTimer = null;
+downloadBusy = false;
+document.getElementById('downloadButton').disabled = false;
+if (!downloadTab || downloadTab.closed) {
+downloadTab = null;
+document.getElementById('progressMessage').textContent = downloadShopeeOpened
+? 'Trình duyệt đã chặn tab tài liệu.'
+: 'Shopee và tab tài liệu đều bị chặn.';
+document.getElementById('progressSeconds').textContent = '';
+document.getElementById('downloadFallback').classList.add('show');
+pendingDownloadUrl = null;
+return;
+}
+
+try {
+downloadTab.location.href = pendingDownloadUrl;
+downloadTab = null;
+pendingDownloadUrl = null;
+closePopup();
+showToast(downloadShopeeOpened
+? 'Đang mở tài liệu ở tab mới.'
+: 'Tài liệu đã mở; Shopee có thể đã bị trình duyệt chặn.');
+} catch (error) {
+console.error('Không thể mở tài liệu:', error);
+downloadTab = null;
+document.getElementById('progressMessage').textContent = 'Không thể chuyển đến tài liệu.';
+document.getElementById('progressSeconds').textContent = '';
+document.getElementById('downloadFallback').classList.add('show');
+pendingDownloadUrl = null;
+}
+}
+
+function cancelDownload() {
+if (downloadTimer !== null) window.clearInterval(downloadTimer);
+downloadTimer = null;
+downloadBusy = false;
+downloadWaitingForReturn = false;
+downloadPageWasLeft = false;
+pendingDownloadUrl = null;
+if (downloadTab && !downloadTab.closed) downloadTab.close();
+downloadTab = null;
+document.getElementById('downloadButton').disabled = false;
+document.getElementById('downloadProgress').classList.remove('show');
+document.getElementById('downloadFallback').classList.remove('show');
+document.getElementById('progressFill').style.width = '0%';
+document.getElementById('progressTrack').setAttribute('aria-valuenow', '0');
+document.getElementById('downloadButton').focus();
+}
+
+function resetDownloadUI() {
+if (downloadBusy) cancelDownload();
+document.getElementById('downloadButton').disabled = false;
+document.getElementById('downloadProgress').classList.remove('show');
+document.getElementById('downloadFallback').classList.remove('show');
+document.getElementById('progressFill').style.width = '0%';
+document.getElementById('progressTrack').setAttribute('aria-valuenow', '0');
+}
+
+function showToast(message) {
+const t = document.getElementById('toast');
+t.textContent = message;
+t.classList.add('show');
+setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function quickSearch(kw) {
+const input = document.getElementById('searchInput');
+input.value = kw;
+input.dispatchEvent(new Event('input'));
+input.focus();
+}
+
+function resetFilters() {
+currentCategory = null;
+document.getElementById('catLabel').textContent = '📂 Duyệt tất cả danh mục';
+document.getElementById('catLabel').className = '';
+document.getElementById('catBtn').setAttribute('aria-expanded', 'false');
+document.getElementById('catBtn').classList.remove('open');
+document.getElementById('catDropdown').classList.remove('show');
+const input = document.getElementById('searchInput');
+input.value = '';
+updateSearchClear();
+renderResults([], '');
+input.focus();
+}
+
+function clearCategoryFilter() {
+currentCategory = null;
+document.getElementById('catLabel').textContent = '📂 Duyệt tất cả danh mục';
+document.getElementById('catLabel').className = '';
+const query = document.getElementById('searchInput').value;
+renderResults(getFilteredResults(query, null), query, null);
+}
+
+function openAllCategories() {
+document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'center' });
+document.getElementById('catBtn').focus({ preventScroll: true });
+document.getElementById('catDropdown').classList.add('show');
+document.getElementById('catBtn').classList.add('open');
+document.getElementById('catBtn').setAttribute('aria-expanded', 'true');
+}
+
+document.getElementById('overlay').addEventListener('click', e => {
+if (e.target === document.getElementById('overlay')) closePopup();
+});
+
+window.addEventListener('blur', markDownloadPageLeft);
+window.addEventListener('focus', startDownloadCountdown);
+document.addEventListener('visibilitychange', () => {
+if (document.visibilityState === 'hidden') {
+markDownloadPageLeft();
+} else {
+startDownloadCountdown();
+}
+});
+
+document.addEventListener('keydown', e => {
+const overlay = document.getElementById('overlay');
+if (e.key === 'Escape' && overlay.classList.contains('show')) {
+closePopup();
+}
+if (e.key === 'Escape') {
+document.getElementById('catDropdown').classList.remove('show');
+document.getElementById('catBtn').classList.remove('open');
+document.getElementById('catBtn').setAttribute('aria-expanded', 'false');
+}
+if (e.key === 'Tab' && overlay.classList.contains('show')) {
+const focusable = Array.from(overlay.querySelectorAll('a[href], button:not([disabled])'))
+.filter(element => element.getClientRects().length);
+const first = focusable[0];
+const last = focusable[focusable.length - 1];
+if (e.shiftKey && document.activeElement === first) {
+e.preventDefault();
+last.focus();
+} else if (!e.shiftKey && document.activeElement === last) {
+e.preventDefault();
+first.focus();
+}
+}
+});
+
+document.getElementById('searchClear').addEventListener('click', () => {
+const input = document.getElementById('searchInput');
+input.value = '';
+updateSearchClear();
+renderResults(getFilteredResults(''), '');
+input.focus();
+});
+
+let debounce;
+document.getElementById('searchInput').addEventListener('input', e => {
+clearTimeout(debounce);
+updateSearchClear();
+if (templatesLoadError) return;
+debounce = setTimeout(() => {
+const query = e.target.value;
+renderResults(getFilteredResults(query), query);
+}, 200);
+});
+
+// ── CATEGORY DROPDOWN ──
+const CATEGORIES = [
+  { name: 'Tất cả', icon: '🗂️' },
+  { name: 'Menu & Giá', icon: '☕' },
+  { name: 'Vận hành', icon: '📋' },
+  { name: 'Template marketing', icon: '📚' },
+  { name: 'Edit video', icon: '🎬' },
+  { name: 'Nhân sự', icon: '👥' },
+  { name: 'Học tiếng trung', icon: '🇨🇳' },
+  { name: 'Học tiếng anh', icon: '📣' },
+  { name: 'Học tiếng Hàn', icon: '🇰🇷' },
+  { name: 'Học tiếng Nhật', icon: '🇯🇵' },
+  { name: 'Học tiếng Nga', icon: '🇷🇺' },
+  { name: 'Học tiếng Pháp', icon: '🇫🇷' },
+  { name: 'Tiếng Đức', icon: '🇩🇪' },
+  { name: 'AI', icon: '🤖' },
+  { name: 'Biểu mẫu', icon: '📝' },
+  { name: 'Plan du lịch', icon: '✈️' },
+  { name: 'Kinh doanh', icon: '💼' },
+  { name: 'Tiktok', icon: '📷' },
+  { name: 'Mẹ và bé', icon: '🍼' },
+  { name: 'Học MOS', icon: '📊' },
+  { name: 'Học Facebook Ads', icon: '📢' },
+  { name: 'Tài liệu Affiliate', icon: '💰' },
+  { name: 'Kỹ năng phát triển bàn thân', icon: '🌱' },
+  { name: 'Toán Học', icon: '🧮' },
+  { name: 'Văn học', icon: '📖' },
+  { name: 'CNTT', icon: '💻' },
+  { name: 'Tài liệu sinh viên', icon: '🎓' },
+  { name: 'ebook', icon: '📕' },
+  { name: 'Khác', icon: '📁' },
+];
+
+function buildCatMenu() {
+const dd = document.getElementById('catDropdown');
+dd.innerHTML = CATEGORIES.map(c => {
+const count = c.name === 'Tất cả'
+? templates.length
+: templates.filter(t => t.category === c.name).length;
+if (c.name !== 'Tất cả' && count === 0) return '';
+return `<button class="cat-item" type="button" onclick="selectCat('${c.name}','${c.icon}')">
+     <span class="cat-icon">${c.icon}</span>
+     <span>${c.name}</span>
+     <span class="cat-count">${count}</span>
+   </button>`;
+}).join('');
+
+const featuredNames = ['Vận hành', 'Template marketing', 'Nhân sự', 'Học tiếng anh', 'AI', 'ebook'];
+document.getElementById('browseGrid').innerHTML = featuredNames
+  .map(name => CATEGORIES.find(category => category.name === name))
+  .filter(Boolean)
+  .map(c => {
+    const count = templates.filter(t => t.category === c.name).length;
+    if (!count) return '';
+    return `<button class="category-card" onclick="selectCat('${c.name}','${c.icon}')">
+      <span class="category-icon">${c.icon}</span>
+      <span class="category-copy"><strong>${c.name}</strong><span>${count} tài liệu</span></span>
+      <span class="category-arrow" aria-hidden="true">↗</span>
+    </button>`;
+  })
+  .join('');
+}
+
+function toggleCat() {
+const dropdown = document.getElementById('catDropdown');
+const button = document.getElementById('catBtn');
+const open = !dropdown.classList.contains('show');
+dropdown.classList.toggle('show', open);
+button.classList.toggle('open', open);
+button.setAttribute('aria-expanded', String(open));
+}
+
+function selectCat(name, icon) {
+const dropdown = document.getElementById('catDropdown');
+const button = document.getElementById('catBtn');
+dropdown.classList.remove('show');
+button.classList.remove('open');
+button.setAttribute('aria-expanded', 'false');
+const label = document.getElementById('catLabel');
+if (name === 'Tất cả') {
+resetFilters();
+return;
+}
+currentCategory = name;
+label.textContent = icon + ' ' + name;
+label.className = 'cat-selected';
+const query = document.getElementById('searchInput').value;
+renderResults(getFilteredResults(query), query);
+document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.addEventListener('click', e => {
+const wrap = document.getElementById('catWrap');
+if (wrap && !wrap.contains(e.target)) {
+document.getElementById('catDropdown').classList.remove('show');
+document.getElementById('catBtn').classList.remove('open');
+document.getElementById('catBtn').setAttribute('aria-expanded', 'false');
+}
+});
+
+loadTemplates().then(() => {
+buildCatMenu();
+if (!templatesLoadError) renderResults([], '');
+// Auto-search từ URL param ?q=...
+const params = new URLSearchParams(window.location.search);
+const q = params.get('q');
+if (q && !templatesLoadError) {
+const input = document.getElementById('searchInput');
+input.value = q;
+updateSearchClear();
+renderResults(getFilteredResults(q), q);
+}
+});
+</script>
+</body>
+</html>
