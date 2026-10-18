@@ -140,6 +140,21 @@ transition: border-color 0.15s, background 0.15s;
 }
 .theme-toggle:hover { border-color: var(--neon); background: var(--neon-light); }
 .topbar-actions { display: flex; align-items: center; gap: 16px; }
+.favorites-toggle {
+display: inline-flex;
+align-items: center;
+gap: 7px;
+padding: 8px 11px;
+border: 1px solid var(--border);
+border-radius: 10px;
+background: var(--panel-bg);
+color: var(--text);
+font-size: 12px;
+cursor: pointer;
+transition: border-color 0.15s, background 0.15s;
+}
+.favorites-toggle:hover, .favorites-toggle[aria-pressed="true"] { border-color: var(--neon); background: var(--neon-light); }
+.favorites-count { color: var(--neon-hover); font-weight: 700; }
 .hero {
 max-width: 1180px;
 margin: 0 auto;
@@ -284,14 +299,17 @@ gap: 14px;
 }
 .results-label {
 grid-column: 1 / -1;
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 8px;
 font-size: 12px;
 color: var(--muted);
 padding: 0 2px 3px;
 }
 .results-label strong { color: var(--text); font-weight: 600; }
-.results-label span { display: inline-block; margin-left: 8px; padding: 4px 9px; border-radius: 20px; background: var(--neon-light); color: var(--badge-text); font-size: 11px; }
+.results-label span { display: inline-block; padding: 4px 9px; border-radius: 20px; background: var(--neon-light); color: var(--badge-text); font-size: 11px; }
 .results-label button {
-margin-left: 10px;
 padding: 4px 9px;
 border: 1px solid var(--border);
 border-radius: 20px;
@@ -301,6 +319,7 @@ font-size: 11px;
 cursor: pointer;
 }
 .results-label button:hover { border-color: var(--neon); color: var(--neon-hover); }
+.results-label .share-results { margin-left: auto; }
 .result-item {
 min-width: 0;
 min-height: 202px;
@@ -336,6 +355,22 @@ font-size: 18px;
 body[data-theme="dark"] .item-icon.pdf { background: #382b2a; color: #ffd4b6; }
 body[data-theme="dark"] .item-icon.word { background: #263343; color: #b6d8ff; }
 .item-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.item-actions { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.favorite-toggle {
+width: 30px;
+height: 30px;
+flex: 0 0 30px;
+display: grid;
+place-items: center;
+border: 1px solid var(--border);
+border-radius: 50%;
+background: var(--panel-bg);
+color: var(--muted);
+font-size: 17px;
+line-height: 1;
+cursor: pointer;
+}
+.favorite-toggle:hover, .favorite-toggle[aria-pressed="true"] { border-color: var(--neon); color: #d94b64; background: var(--neon-light); }
 .item-info { flex: 1; min-width: 0; margin: 17px 0 14px; }
 .item-name { font-size: 14px; font-weight: 600; line-height: 1.45; margin-bottom: 7px; }
 .item-meta { font-size: 11px; color: var(--muted); }
@@ -386,9 +421,11 @@ font-size: 14px;
 }
 @media (max-width: 620px) {
 .topbar { padding: 18px 20px; }
-.topbar-actions { gap: 0; }
+.topbar-actions { gap: 8px; }
 .theme-toggle { padding: 8px; }
 .theme-toggle span:last-child { display: none; }
+.favorites-toggle { padding: 8px; }
+.favorites-label { display: none; }
 .topbar-note { display: none; }
 .hero { padding: 42px 20px 28px; gap: 24px; }
 .hero.compact { padding-top: 14px; padding-bottom: 18px; gap: 0; }
@@ -673,6 +710,9 @@ opacity: 1;
 </a>
 <div class="topbar-actions">
 <span class="topbar-note">Tài nguyên hữu ích cho công việc và học tập</span>
+<button class="favorites-toggle" id="favoritesToggle" type="button" aria-pressed="false" aria-label="Xem tài liệu yêu thích">
+<span aria-hidden="true">♡</span><span class="favorites-label">Yêu thích</span><span class="favorites-count" id="favoritesCount">0</span>
+</button>
 <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
 <span id="themeIcon" aria-hidden="true">☾</span><span id="themeLabel">Giao diện tối</span>
 </button>
@@ -779,6 +819,8 @@ const AFFILIATE_URL = 'https://s.shopee.vn/BUg1TXUUo';
 let templates = [];
 let currentItem = null;
 let currentCategory = null;
+let favoriteIds = new Set();
+let showingFavorites = false;
 let previousFocus = null;
 let templatesLoadError = false;
 let downloadTimer = null;
@@ -809,6 +851,41 @@ return String(value ?? '').replace(/[&<>"']/g, char => ({
   "'": '&#39;',
 }[char]));
 }
+
+function loadFavoriteIds() {
+try {
+const stored = localStorage.getItem('template-favorites');
+if (!stored) return new Set();
+const parsed = JSON.parse(stored);
+if (!Array.isArray(parsed)) throw new Error('Danh sách yêu thích đã lưu không đúng định dạng.');
+return new Set(parsed.filter(id => typeof id === 'string' || typeof id === 'number').map(String));
+} catch (error) {
+console.warn('Không thể đọc danh sách yêu thích đã lưu:', error);
+return new Set();
+}
+}
+
+favoriteIds = loadFavoriteIds();
+
+function saveFavoriteIds() {
+try {
+localStorage.setItem('template-favorites', JSON.stringify([...favoriteIds]));
+} catch (error) {
+console.warn('Không thể lưu danh sách yêu thích:', error);
+showToast('Không thể lưu yêu thích trên trình duyệt này.');
+}
+}
+
+function updateFavoritesToggle() {
+const button = document.getElementById('favoritesToggle');
+const isActive = showingFavorites;
+button.setAttribute('aria-pressed', String(isActive));
+button.setAttribute('aria-label', isActive ? 'Ẩn danh sách tài liệu yêu thích' : 'Xem tài liệu yêu thích');
+button.querySelector('[aria-hidden="true"]').textContent = isActive ? '♥' : '♡';
+document.getElementById('favoritesCount').textContent = String(favoriteIds.size);
+}
+
+updateFavoritesToggle();
 
 function updateTheme(theme) {
 document.documentElement.dataset.theme = theme;
@@ -863,6 +940,16 @@ return str.toLowerCase()
 .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+function slugify(value) {
+return normalize(value)
+.replace(/[^a-z0-9]+/g, '-')
+.replace(/^-|-$/g, '');
+}
+
+function queryFromSlug(value) {
+return value.replace(/-/g, ' ');
+}
+
 function search(query) {
 if (!query.trim()) return [];
 const words = normalize(query).split(/\s+/).filter(Boolean);
@@ -878,36 +965,115 @@ function updateSearchClear() {
 document.getElementById('searchClear').classList.toggle('show', Boolean(document.getElementById('searchInput').value));
 }
 
+function syncSearchUrl(query = document.getElementById('searchInput').value, category = currentCategory) {
+const url = new URL(window.location.href);
+url.searchParams.delete('q');
+url.searchParams.delete('category');
+const querySlug = slugify(query.trim());
+const categorySlug = category ? slugify(category) : '';
+if (querySlug) url.searchParams.set('q', querySlug);
+if (categorySlug) url.searchParams.set('category', categorySlug);
+window.history.replaceState(null, '', url);
+}
+
+function shareButton(query, category) {
+return !showingFavorites && (query.trim() || category)
+? '<button class="share-results" type="button" onclick="shareSearch()">⤴ Chia sẻ kết quả</button>'
+: '';
+}
+
+async function shareSearch() {
+const url = new URL(window.location.href);
+url.searchParams.delete('q');
+url.searchParams.delete('category');
+const query = document.getElementById('searchInput').value.trim();
+const querySlug = slugify(query);
+const categorySlug = currentCategory ? slugify(currentCategory) : '';
+if (querySlug) url.searchParams.set('q', querySlug);
+if (categorySlug) url.searchParams.set('category', categorySlug);
+
+try {
+if (navigator.clipboard?.writeText) {
+await navigator.clipboard.writeText(url.href);
+} else {
+throw new Error('Clipboard API không khả dụng.');
+}
+showToast('Đã sao chép liên kết tìm kiếm.');
+} catch (error) {
+console.warn('Không thể dùng Clipboard API, thử cách sao chép dự phòng:', error);
+const input = document.createElement('textarea');
+input.value = url.href;
+input.setAttribute('readonly', '');
+input.style.position = 'fixed';
+input.style.opacity = '0';
+document.body.appendChild(input);
+input.select();
+let copied = false;
+try {
+copied = document.execCommand('copy');
+} catch (fallbackError) {
+console.error('Không thể sao chép liên kết tìm kiếm:', fallbackError);
+} finally {
+input.remove();
+}
+if (copied) {
+showToast('Đã sao chép liên kết tìm kiếm.');
+} else {
+console.error('Trình duyệt không cho phép sao chép liên kết tìm kiếm.');
+showToast('Không thể sao chép tự động. Hãy sao chép URL trên thanh địa chỉ.');
+}
+}
+}
+
 function getFilteredResults(query, category = currentCategory) {
 const matches = query.trim() ? search(query) : templates;
-return matches.filter(t => !category || t.category === category);
+return matches.filter(t =>
+(!category || t.category === category) &&
+(!showingFavorites || favoriteIds.has(String(t.id)))
+);
 }
 
 function renderResults(items, query, category = currentCategory) {
 const el = document.getElementById('results');
 const hasQuery = Boolean(query.trim());
 const hasCategory = Boolean(category);
+const hasFavorites = showingFavorites;
 el.setAttribute('aria-busy', 'false');
-document.getElementById('hero').classList.toggle('compact', hasQuery || hasCategory);
+document.getElementById('hero').classList.toggle('compact', hasQuery || hasCategory || hasFavorites);
 
-if (!hasQuery && !hasCategory) {
+if (!hasQuery && !hasCategory && !hasFavorites) {
 el.innerHTML = '';
 return;
 }
 
 if (!items.length) {
-el.innerHTML = `<div class="empty"><strong>⌕</strong>${hasQuery ? `Không tìm thấy “<b>${escapeHTML(query)}</b>”` : `Chưa có tài liệu trong danh mục “<b>${escapeHTML(category)}</b>”`}<br>Thử từ khóa khác hoặc xóa bộ lọc để khám phá thêm.<br><button type="button" onclick="resetFilters()">Xóa bộ lọc</button></div>`;
+const emptyMessage = hasFavorites && !favoriteIds.size
+? 'Bạn chưa lưu tài liệu yêu thích.'
+: hasFavorites
+? 'Không tìm thấy tài liệu yêu thích phù hợp với bộ lọc.'
+: hasQuery
+? `Không tìm thấy “<b>${escapeHTML(query)}</b>”`
+: `Chưa có tài liệu trong danh mục “<b>${escapeHTML(category)}</b>”`;
+el.innerHTML = `<div class="empty"><strong>${hasFavorites ? '♡' : '⌕'}</strong>${emptyMessage}<br>${hasFavorites && !favoriteIds.size ? 'Nhấn biểu tượng trái tim trên tài liệu để lưu lại.' : 'Thử từ khóa khác hoặc xóa bộ lọc để khám phá thêm.'}<br>${shareButton(query, category)}<button type="button" onclick="resetFilters()">Xóa bộ lọc</button></div>`;
 return;
 }
 
-const resultTitle = hasQuery ? `Kết quả cho <strong>“${escapeHTML(query)}”</strong>` : `Danh mục <strong>${escapeHTML(category)}</strong>`;
+const resultTitle = hasFavorites
+? `Yêu thích${hasQuery ? ` · Kết quả cho <strong>“${escapeHTML(query)}”</strong>` : ''}`
+: hasQuery
+? `Kết quả cho <strong>“${escapeHTML(query)}”</strong>`
+: `Danh mục <strong>${escapeHTML(category)}</strong>`;
 const categoryFilter = hasCategory ? `<button type="button" onclick="clearCategoryFilter()">Bỏ lọc: ${escapeHTML(category)} ×</button>` : '';
-el.innerHTML = `<div class="results-label">${resultTitle} · <span>${items.length} tài liệu</span>${categoryFilter}</div>` +
+const shareControl = shareButton(query, category);
+el.innerHTML = `<div class="results-label">${resultTitle}<span>${items.length} tài liệu</span>${categoryFilter}${shareControl}</div>` +
 items.map(t => `
      <article class="result-item">
        <div class="item-top">
          <div class="item-icon ${fileIcons[String(t.type).toLowerCase()]?.[1] || 'folder'}">${fileIcons[String(t.type).toLowerCase()]?.[0] || '📁'}</div>
-         <span class="item-cat">${escapeHTML(t.category)}</span>
+         <div class="item-actions">
+           <span class="item-cat">${escapeHTML(t.category)}</span>
+           <button class="favorite-toggle" type="button" data-favorite-id="${Number(t.id)}" aria-label="${favoriteIds.has(String(t.id)) ? 'Bỏ lưu' : 'Lưu'} ${escapeHTML(t.name)}" aria-pressed="${favoriteIds.has(String(t.id))}" title="${favoriteIds.has(String(t.id)) ? 'Bỏ khỏi yêu thích' : 'Lưu vào yêu thích'}" onclick="toggleFavorite(${Number(t.id)})">${favoriteIds.has(String(t.id)) ? '♥' : '♡'}</button>
+         </div>
        </div>
        <div class="item-info">
          <div class="item-name">${escapeHTML(t.name)}</div>
@@ -1087,6 +1253,33 @@ t.classList.add('show');
 setTimeout(() => t.classList.remove('show'), 2800);
 }
 
+function toggleFavorite(id) {
+const item = templates.find(template => template.id === id);
+if (!item) return;
+const key = String(id);
+if (favoriteIds.has(key)) {
+favoriteIds.delete(key);
+} else {
+favoriteIds.add(key);
+}
+saveFavoriteIds();
+updateFavoritesToggle();
+const query = document.getElementById('searchInput').value;
+renderResults(getFilteredResults(query), query);
+const favoriteButton = document.querySelector(`.favorite-toggle[data-favorite-id="${Number(id)}"]`);
+(favoriteButton || document.getElementById('favoritesToggle')).focus();
+}
+
+document.getElementById('favoritesToggle').addEventListener('click', () => {
+showingFavorites = !showingFavorites;
+updateFavoritesToggle();
+const query = document.getElementById('searchInput').value;
+renderResults(getFilteredResults(query), query);
+if (showingFavorites) {
+document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+});
+
 function quickSearch(kw) {
 const input = document.getElementById('searchInput');
 input.value = kw;
@@ -1096,6 +1289,8 @@ input.focus();
 
 function resetFilters() {
 currentCategory = null;
+showingFavorites = false;
+updateFavoritesToggle();
 document.getElementById('catLabel').textContent = '📂 Duyệt tất cả danh mục';
 document.getElementById('catLabel').className = '';
 document.getElementById('catBtn').setAttribute('aria-expanded', 'false');
@@ -1104,6 +1299,7 @@ document.getElementById('catDropdown').classList.remove('show');
 const input = document.getElementById('searchInput');
 input.value = '';
 updateSearchClear();
+syncSearchUrl('');
 renderResults([], '');
 input.focus();
 }
@@ -1113,6 +1309,7 @@ currentCategory = null;
 document.getElementById('catLabel').textContent = '📂 Duyệt tất cả danh mục';
 document.getElementById('catLabel').className = '';
 const query = document.getElementById('searchInput').value;
+syncSearchUrl(query, null);
 renderResults(getFilteredResults(query, null), query, null);
 }
 
@@ -1167,6 +1364,7 @@ document.getElementById('searchClear').addEventListener('click', () => {
 const input = document.getElementById('searchInput');
 input.value = '';
 updateSearchClear();
+syncSearchUrl('');
 renderResults(getFilteredResults(''), '');
 input.focus();
 });
@@ -1176,6 +1374,7 @@ document.getElementById('searchInput').addEventListener('input', e => {
 clearTimeout(debounce);
 updateSearchClear();
 if (templatesLoadError) return;
+syncSearchUrl(e.target.value);
 debounce = setTimeout(() => {
 const query = e.target.value;
 renderResults(getFilteredResults(query), query);
@@ -1269,6 +1468,7 @@ currentCategory = name;
 label.textContent = icon + ' ' + name;
 label.className = 'cat-selected';
 const query = document.getElementById('searchInput').value;
+syncSearchUrl(query);
 renderResults(getFilteredResults(query), query);
 document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -1284,15 +1484,26 @@ document.getElementById('catBtn').setAttribute('aria-expanded', 'false');
 
 loadTemplates().then(() => {
 buildCatMenu();
-if (!templatesLoadError) renderResults([], '');
-// Auto-search từ URL param ?q=...
 const params = new URLSearchParams(window.location.search);
-const q = params.get('q');
-if (q && !templatesLoadError) {
+const rawQuery = params.get('q') || '';
+const rawCategory = params.get('category') || '';
+const q = queryFromSlug(rawQuery);
+const categoryInfo = CATEGORIES.find(item =>
+item.name === rawCategory || slugify(item.name) === slugify(rawCategory)
+);
+const category = categoryInfo?.name || null;
+if (!templatesLoadError) {
 const input = document.getElementById('searchInput');
 input.value = q;
 updateSearchClear();
-renderResults(getFilteredResults(q), q);
+if (category && templates.some(template => template.category === category)) {
+currentCategory = category;
+const label = document.getElementById('catLabel');
+label.textContent = `${categoryInfo?.icon || '📂'} ${category}`;
+label.className = 'cat-selected';
+}
+syncSearchUrl(input.value);
+renderResults(getFilteredResults(input.value), input.value);
 }
 });
 </script>
