@@ -295,6 +295,7 @@ transition: border-color 0.15s, color 0.15s, background 0.15s;
 .cat-btn.open .arrow { transform: rotate(180deg); }
 .cat-dropdown { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; max-height: 320px; overflow-y: auto; background: var(--panel-bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 50; }
 .cat-dropdown.show { display: block; }
+.cat-group-title { padding: 12px 18px 6px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .cat-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 18px; border: 0; border-bottom: 0.5px solid var(--border); background: transparent; text-align: left; font-size: 13px; color: var(--text); cursor: pointer; transition: background 0.12s; }
 .cat-item:last-child { border-bottom: none; }
 .cat-item:hover { background: var(--neon-light); }
@@ -1668,53 +1669,116 @@ renderResults(getFilteredResults(query), query);
 });
 
 // ── CATEGORY DROPDOWN ──
-const CATEGORIES = [
-  { name: 'Tất cả', icon: '🗂️' },
-  { name: 'Menu & Giá', icon: '☕' },
-  { name: 'Vận hành', icon: '📋' },
-  { name: 'Template marketing', icon: '📚' },
-  { name: 'Edit video', icon: '🎬' },
-  { name: 'Nhân sự', icon: '👥' },
-  { name: 'Học tiếng trung', icon: '🇨🇳' },
-  { name: 'Học tiếng anh', icon: '📣' },
-  { name: 'Học tiếng Hàn', icon: '🇰🇷' },
-  { name: 'Học tiếng Nhật', icon: '🇯🇵' },
-  { name: 'Học tiếng Nga', icon: '🇷🇺' },
-  { name: 'Học tiếng Pháp', icon: '🇫🇷' },
-  { name: 'Tiếng Đức', icon: '🇩🇪' },
-  { name: 'AI', icon: '🤖' },
-  { name: 'Biểu mẫu', icon: '📝' },
-  { name: 'Plan du lịch', icon: '✈️' },
-  { name: 'Kinh doanh', icon: '💼' },
-  { name: 'Tiktok', icon: '📷' },
-  { name: 'Mẹ và bé', icon: '🍼' },
-  { name: 'Học MOS', icon: '📊' },
-  { name: 'Học Facebook Ads', icon: '📢' },
-  { name: 'Tài liệu Affiliate', icon: '💰' },
-  { name: 'Kỹ năng phát triển bàn thân', icon: '🌱' },
-  { name: 'Toán Học', icon: '🧮' },
-  { name: 'Văn học', icon: '📖' },
-  { name: 'CNTT', icon: '💻' },
-  { name: 'Tài liệu sinh viên', icon: '🎓' },
-  { name: 'ebook', icon: '📕' },
-  { name: 'Khác', icon: '📁' },
+const CATEGORY_GROUPS = [
+  {
+    name: 'Ngoại ngữ',
+    categories: [
+      { name: 'Tiếng Anh', icon: '🇬🇧', aliases: ['Học tiếng anh'] },
+      { name: 'Tiếng Trung', icon: '🇨🇳', aliases: ['Học tiếng trung'] },
+      { name: 'Tiếng Nhật', icon: '🇯🇵', aliases: ['Học tiếng Nhật'] },
+      { name: 'Tiếng Hàn', icon: '🇰🇷', aliases: ['Học tiếng Hàn'] },
+      { name: 'Tiếng Đức', icon: '🇩🇪', aliases: ['Tiếng Đức'] },
+      { name: 'Tiếng Pháp', icon: '🇫🇷', aliases: ['Học tiếng Pháp'] },
+      { name: 'Tiếng Nga', icon: '🇷🇺', aliases: ['Học tiếng Nga'] },
+    ],
+  },
+  {
+    name: 'Công nghệ & kỹ năng số',
+    categories: [
+      { name: 'AI', icon: '🤖', aliases: [] },
+      { name: 'Công nghệ thông tin', icon: '💻', aliases: ['CNTT'] },
+      { name: 'MOS & Tin học văn phòng', icon: '📊', aliases: ['Học MOS'] },
+      { name: 'Chỉnh sửa video', icon: '🎬', aliases: ['Edit video'] },
+    ],
+  },
+  {
+    name: 'Marketing & sáng tạo nội dung',
+    categories: [
+      { name: 'Marketing', icon: '📚', aliases: ['Template marketing'] },
+      { name: 'Quảng cáo Facebook', icon: '📢', aliases: ['Học Facebook Ads'] },
+      { name: 'TikTok', icon: '📷', aliases: ['Tiktok'] },
+      { name: 'Affiliate', icon: '💰', aliases: ['Tài liệu Affiliate'] },
+    ],
+  },
+  {
+    name: 'Kinh doanh & vận hành',
+    categories: [
+      { name: 'Kinh doanh', icon: '💼', aliases: [] },
+      { name: 'Vận hành', icon: '📋', aliases: [] },
+      { name: 'Nhân sự', icon: '👥', aliases: [] },
+    ],
+  },
+  {
+    name: 'Học tập & phát triển',
+    categories: [
+      { name: 'Toán học', icon: '🧮', aliases: ['Toán Học'] },
+      { name: 'Văn học', icon: '📖', aliases: ['Văn Học'] },
+      { name: 'Tài liệu sinh viên', icon: '🎓', aliases: [] },
+      { name: 'Phát triển bản thân', icon: '🌱', aliases: ['Kỹ năng phát triển bàn thân'] },
+    ],
+  },
+  {
+    name: 'Đời sống',
+    categories: [
+      { name: 'Mẹ và bé', icon: '🍼', aliases: [] },
+      { name: 'Du lịch', icon: '✈️', aliases: ['Plan du lịch'] },
+    ],
+  },
+  {
+    name: 'Sách & tài liệu tham khảo',
+    categories: [
+      { name: 'Sách & Ebook', icon: '📕', aliases: ['ebook'] },
+      { name: 'Biểu mẫu', icon: '📝', aliases: [] },
+      { name: 'Khác', icon: '📁', aliases: [] },
+    ],
+  },
 ];
+const CATEGORIES = CATEGORY_GROUPS.flatMap(group =>
+  group.categories.map(category => ({ ...category, group: group.name }))
+);
+
+function normalizeTemplateCategories() {
+const unknownCategories = new Set();
+templates.forEach(template => {
+const category = CATEGORIES.find(item =>
+item.name === template.category || item.aliases.includes(template.category)
+);
+if (category) {
+template.category = category.name;
+} else if (template.category) {
+unknownCategories.add(template.category);
+}
+});
+
+unknownCategories.forEach(name => {
+console.warn(`Danh mục chưa được phân nhóm: ${name}`);
+CATEGORIES.push({ name, icon: '📁', aliases: [], group: 'Chưa phân nhóm' });
+});
+}
 
 function buildCatMenu() {
 const dd = document.getElementById('catDropdown');
-dd.innerHTML = CATEGORIES.map(c => {
-const count = c.name === 'Tất cả'
-? templates.length
-: templates.filter(t => t.category === c.name).length;
-if (c.name !== 'Tất cả' && count === 0) return '';
+const allCount = templates.length;
+const allItem = `<button class="cat-item" type="button" onclick="selectCat('Tất cả','🗂️')">
+     <span class="cat-icon">🗂️</span>
+     <span>Tất cả tài liệu</span>
+     <span class="cat-count">${allCount}</span>
+   </button>`;
+const groups = [...new Set(CATEGORIES.map(category => category.group))];
+dd.innerHTML = allItem + groups.map(groupName => {
+const categories = CATEGORIES.filter(category => category.group === groupName).map(c => {
+const count = templates.filter(t => t.category === c.name).length;
+if (count === 0) return '';
 return `<button class="cat-item" type="button" onclick="selectCat('${c.name}','${c.icon}')">
      <span class="cat-icon">${c.icon}</span>
      <span>${c.name}</span>
      <span class="cat-count">${count}</span>
    </button>`;
 }).join('');
+return categories ? `<div class="cat-group-title">${groupName}</div>${categories}` : '';
+}).join('');
 
-const featuredNames = ['Vận hành', 'Template marketing', 'Nhân sự', 'Học tiếng anh', 'AI', 'ebook'];
+const featuredNames = ['Vận hành', 'Marketing', 'Tiếng Anh', 'Tiếng Trung', 'AI', 'Sách & Ebook'];
 document.getElementById('browseGrid').innerHTML = featuredNames
   .map(name => CATEGORIES.find(category => category.name === name))
   .filter(Boolean)
@@ -1769,14 +1833,19 @@ document.getElementById('catBtn').setAttribute('aria-expanded', 'false');
 });
 
 loadTemplates().then(() => {
+if (!templatesLoadError) {
+normalizeTemplateCategories();
 buildCatMenu();
+}
 const params = new URLSearchParams(window.location.search);
 const rawQuery = params.get('q') || '';
 const rawCategory = params.get('category') || '';
 const rawResourceId = params.get('resource');
 const q = queryFromSlug(rawQuery);
 const categoryInfo = CATEGORIES.find(item =>
-item.name === rawCategory || slugify(item.name) === slugify(rawCategory)
+item.name === rawCategory ||
+slugify(item.name) === slugify(rawCategory) ||
+item.aliases.some(alias => slugify(alias) === slugify(rawCategory))
 );
 const category = categoryInfo?.name || null;
 if (!templatesLoadError) {
