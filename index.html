@@ -829,7 +829,7 @@ opacity: 1;
 }
 </style>
 </head>
-<body>
+<body data-theme="dark">
 
 <header class="topbar">
 <a class="brand" href="./" aria-label="Kho Tài Liệu - trang chủ">
@@ -1071,9 +1071,9 @@ console.warn('Không thể lưu tùy chọn giao diện:', error);
 }
 }
 
-let savedTheme = 'light';
+let savedTheme = 'dark';
 try {
-savedTheme = localStorage.getItem('template-theme') || 'light';
+savedTheme = localStorage.getItem('template-theme') || 'dark';
 } catch (error) {
 console.warn('Không thể đọc tùy chọn giao diện đã lưu:', error);
 }
