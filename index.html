@@ -400,7 +400,8 @@ text-overflow: ellipsis;
 max-width: 62%;
 }
 .btn-dl {
-width: 100%;
+flex: 1;
+min-width: 0;
 margin-top: auto;
 padding: 10px 16px;
 background: var(--neon);
@@ -415,6 +416,19 @@ box-shadow: 0 3px 10px color-mix(in srgb, var(--neon) 16%, transparent);
 transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
 }
 .btn-dl:hover { background: var(--neon-hover); box-shadow: 0 5px 16px color-mix(in srgb, var(--neon) 22%, transparent); transform: translateY(-1px); }
+.item-footer { display: flex; align-items: stretch; gap: 8px; margin-top: auto; }
+.btn-share {
+flex: 0 0 auto;
+padding: 10px 12px;
+border: 1px solid var(--border);
+border-radius: 100px;
+background: var(--panel-bg);
+color: var(--text);
+font-size: 12px;
+cursor: pointer;
+transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.btn-share:hover { border-color: var(--neon); background: var(--neon-light); color: var(--neon-hover); }
 .btn-dl:active, .theme-toggle:active, .category-card:active { transform: translateY(0); }
 
 .empty {
@@ -1147,17 +1161,21 @@ const categorySlug = currentCategory ? slugify(currentCategory) : '';
 if (querySlug) url.searchParams.set('q', querySlug);
 if (categorySlug) url.searchParams.set('category', categorySlug);
 
+await copyLink(url.href, 'Đã sao chép liên kết tìm kiếm.');
+}
+
+async function copyLink(link, successMessage) {
 try {
 if (navigator.clipboard?.writeText) {
-await navigator.clipboard.writeText(url.href);
+await navigator.clipboard.writeText(link);
 } else {
 throw new Error('Clipboard API không khả dụng.');
 }
-showToast('Đã sao chép liên kết tìm kiếm.');
+showToast(successMessage);
 } catch (error) {
 console.warn('Không thể dùng Clipboard API, thử cách sao chép dự phòng:', error);
 const input = document.createElement('textarea');
-input.value = url.href;
+input.value = link;
 input.setAttribute('readonly', '');
 input.style.position = 'fixed';
 input.style.opacity = '0';
@@ -1167,17 +1185,28 @@ let copied = false;
 try {
 copied = document.execCommand('copy');
 } catch (fallbackError) {
-console.error('Không thể sao chép liên kết tìm kiếm:', fallbackError);
+console.error('Không thể sao chép liên kết:', fallbackError);
 } finally {
 input.remove();
 }
 if (copied) {
-showToast('Đã sao chép liên kết tìm kiếm.');
+showToast(successMessage);
 } else {
-console.error('Trình duyệt không cho phép sao chép liên kết tìm kiếm.');
-showToast('Không thể sao chép tự động. Hãy sao chép URL trên thanh địa chỉ.');
+console.error('Trình duyệt không cho phép sao chép liên kết.');
+showToast('Không thể sao chép tự động. Hãy thử lại trên trình duyệt khác.');
 }
 }
+}
+
+async function shareResource(id) {
+const item = templates.find(template => template.id === id);
+if (!item) {
+showToast('Không tìm thấy tài nguyên cần chia sẻ.');
+return;
+}
+const url = new URL(window.location.href);
+url.searchParams.set('resource', String(item.id));
+await copyLink(url.href, 'Đã sao chép link cửa sổ tài liệu.');
 }
 
 function getFilteredResults(query, category = currentCategory) {
@@ -1234,7 +1263,10 @@ items.map(t => `
          <div class="item-name">${escapeHTML(t.name)}</div>
          <div class="item-meta">${escapeHTML(t.type)} · ${escapeHTML(t.size)}</div>
        </div>
-       <button class="btn-dl" type="button" aria-label="Tải ${escapeHTML(t.name)}" onclick="openPopup(${Number(t.id)})">Tải tài liệu</button>
+       <div class="item-footer">
+         <button class="btn-dl" type="button" aria-label="Tải ${escapeHTML(t.name)}" onclick="openPopup(${Number(t.id)})">Tải tài liệu</button>
+         <button class="btn-share" type="button" aria-label="Sao chép link ${escapeHTML(t.name)}" title="Sao chép link tài liệu" onclick="shareResource(${Number(t.id)})">Sao chép link</button>
+       </div>
      </article>
    `).join('');
 }
@@ -1741,6 +1773,7 @@ buildCatMenu();
 const params = new URLSearchParams(window.location.search);
 const rawQuery = params.get('q') || '';
 const rawCategory = params.get('category') || '';
+const rawResourceId = params.get('resource');
 const q = queryFromSlug(rawQuery);
 const categoryInfo = CATEGORIES.find(item =>
 item.name === rawCategory || slugify(item.name) === slugify(rawCategory)
@@ -1758,6 +1791,8 @@ label.className = 'cat-selected';
 }
 syncSearchUrl(input.value);
 renderResults(getFilteredResults(input.value), input.value);
+const resourceId = rawResourceId === null ? NaN : Number(rawResourceId);
+if (Number.isSafeInteger(resourceId)) openPopup(resourceId);
 }
 });
 </script>
