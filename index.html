@@ -973,7 +973,7 @@ aria-controls="results"
 </div>
 <button class="progress-cancel" type="button" onclick="cancelDownload()">Hủy</button>
 </div>
-<p class="download-fallback" id="downloadFallback">Trình duyệt đã chặn mở tab tài liệu. <a id="manualDownload" href="#" target="_blank" rel="noopener noreferrer">Nhấn vào đây để mở tài liệu</a>.</p>
+<p class="download-fallback" id="downloadFallback">Nếu tài liệu chưa tự mở, hãy <a id="manualDownload" href="#" target="_blank" rel="noopener noreferrer">chạm vào đây để mở tài liệu</a>.</p>
 </div>
 </div>
 </div>
@@ -992,12 +992,14 @@ let showingFavorites = false;
 let previousFocus = null;
 let templatesLoadError = false;
 let downloadTimer = null;
+let downloadFallbackTimer = null;
 let downloadTab = null;
 let downloadStartedAt = 0;
 let downloadBusy = false;
 let downloadShopeeOpened = false;
 let downloadWaitingForReturn = false;
 let downloadPageWasLeft = false;
+let downloadUsesManualOpen = false;
 let pendingDownloadUrl = null;
 let qrCanvas = null;
 let qrToolPreviousFocus = null;
@@ -1308,6 +1310,7 @@ return;
 pendingDownloadUrl = currentItem.drive_url;
 downloadWaitingForReturn = true;
 downloadPageWasLeft = false;
+downloadUsesManualOpen = window.matchMedia('(max-width: 620px)').matches;
 downloadBusy = true;
 downloadShopeeOpened = false;
 let shopeeTab = null;
@@ -1318,6 +1321,7 @@ if (shopeeTab) shopeeTab.opener = null;
 } catch (error) {
 console.warn('Không thể mở Shopee:', error);
 }
+if (!downloadUsesManualOpen) {
 try {
 downloadTab = window.open('about:blank', '_blank');
 if (downloadTab) {
@@ -1327,6 +1331,7 @@ downloadTab.document.body.textContent = 'Quay lại trang thư viện để bắ
 }
 } catch (error) {
 console.warn('Không thể chuẩn bị tab tài liệu:', error);
+}
 }
 if (shopeeTab) {
 try {
@@ -1357,6 +1362,30 @@ if (downloadWaitingForReturn) downloadPageWasLeft = true;
 function startDownloadCountdown() {
 if (!downloadWaitingForReturn || !downloadPageWasLeft || downloadTimer !== null) return;
 downloadWaitingForReturn = false;
+if (downloadUsesManualOpen) {
+const targetUrl = pendingDownloadUrl;
+downloadPageWasLeft = false;
+downloadTab = null;
+document.getElementById('progressMessage').textContent = 'Đã quay lại. Đang mở khóa học…';
+document.getElementById('progressSeconds').textContent = '';
+document.getElementById('downloadFallback').classList.remove('show');
+if (!targetUrl) {
+showMobileDownloadFallback();
+return;
+}
+try {
+window.location.assign(targetUrl);
+} catch (error) {
+console.error('Không thể tự động mở tài liệu:', error);
+showMobileDownloadFallback();
+return;
+}
+downloadFallbackTimer = window.setTimeout(() => {
+downloadFallbackTimer = null;
+showMobileDownloadFallback();
+}, 1500);
+return;
+}
 downloadStartedAt = Date.now();
 document.getElementById('progressMessage').textContent = 'Đang chuẩn bị mở tài liệu…';
 updateDownloadProgress();
@@ -1410,10 +1439,13 @@ pendingDownloadUrl = null;
 
 function cancelDownload() {
 if (downloadTimer !== null) window.clearInterval(downloadTimer);
+if (downloadFallbackTimer !== null) window.clearTimeout(downloadFallbackTimer);
 downloadTimer = null;
+downloadFallbackTimer = null;
 downloadBusy = false;
 downloadWaitingForReturn = false;
 downloadPageWasLeft = false;
+downloadUsesManualOpen = false;
 pendingDownloadUrl = null;
 if (downloadTab && !downloadTab.closed) downloadTab.close();
 downloadTab = null;
@@ -1425,8 +1457,20 @@ document.getElementById('progressTrack').setAttribute('aria-valuenow', '0');
 document.getElementById('downloadButton').focus();
 }
 
+function showMobileDownloadFallback() {
+downloadBusy = false;
+downloadUsesManualOpen = false;
+pendingDownloadUrl = null;
+document.getElementById('downloadButton').disabled = false;
+document.getElementById('progressMessage').textContent = 'Không thể tự động mở khóa học. Chạm vào liên kết bên dưới để tiếp tục.';
+document.getElementById('progressSeconds').textContent = '';
+document.getElementById('downloadProgress').classList.remove('show');
+document.getElementById('downloadFallback').classList.add('show');
+}
+
 function resetDownloadUI() {
 if (downloadBusy) cancelDownload();
+downloadUsesManualOpen = false;
 document.getElementById('downloadButton').disabled = false;
 document.getElementById('downloadProgress').classList.remove('show');
 document.getElementById('downloadFallback').classList.remove('show');
@@ -1617,6 +1661,13 @@ if (document.visibilityState === 'hidden') {
 markDownloadPageLeft();
 } else {
 startDownloadCountdown();
+}
+});
+
+window.addEventListener('pagehide', () => {
+if (downloadFallbackTimer !== null) {
+window.clearTimeout(downloadFallbackTimer);
+downloadFallbackTimer = null;
 }
 });
 
