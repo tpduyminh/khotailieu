@@ -954,7 +954,7 @@ aria-controls="results"
 <button class="popup-close" type="button" aria-label="Đóng cửa sổ" onclick="closePopup()">✕</button>
 </div>
 <div class="popup-body">
-<p class="download-note">Shopee sẽ mở ở tab mới. Sau khi xem Shopee, quay lại trang này để bắt đầu thanh tải 3 giây và mở tài liệu trong tab mới.</p>
+<p class="download-note">Shopee sẽ mở ở tab mới. Sau khi xem Shopee, quay lại trang này để bắt đầu thanh tải 3 giây. Tài liệu sẽ mở ngay tại trang này.</p>
 <a class="aff-btn" id="affLink" href="https://s.shopee.vn/BUg1TXUUo" target="_blank" rel="noopener noreferrer" onclick="doDownload(event)">
 <div class="aff-logo">↗</div>
 <div class="aff-text">
@@ -973,7 +973,7 @@ aria-controls="results"
 </div>
 <button class="progress-cancel" type="button" onclick="cancelDownload()">Hủy</button>
 </div>
-<p class="download-fallback" id="downloadFallback">Nếu tài liệu chưa tự mở, hãy <a id="manualDownload" href="#" target="_blank" rel="noopener noreferrer">chạm vào đây để mở tài liệu</a>.</p>
+<p class="download-fallback" id="downloadFallback">Nếu tài liệu chưa tự mở, hãy <a id="manualDownload" href="#">chạm vào đây để mở tài liệu</a>.</p>
 </div>
 </div>
 </div>
@@ -992,14 +992,11 @@ let showingFavorites = false;
 let previousFocus = null;
 let templatesLoadError = false;
 let downloadTimer = null;
-let downloadFallbackTimer = null;
-let downloadTab = null;
 let downloadStartedAt = 0;
 let downloadBusy = false;
 let downloadShopeeOpened = false;
 let downloadWaitingForReturn = false;
 let downloadPageWasLeft = false;
-let downloadUsesManualOpen = false;
 let pendingDownloadUrl = null;
 let qrCanvas = null;
 let qrToolPreviousFocus = null;
@@ -1310,28 +1307,14 @@ return;
 pendingDownloadUrl = currentItem.drive_url;
 downloadWaitingForReturn = true;
 downloadPageWasLeft = false;
-downloadUsesManualOpen = window.matchMedia('(max-width: 620px)').matches;
 downloadBusy = true;
 downloadShopeeOpened = false;
 let shopeeTab = null;
-downloadTab = null;
 try {
 shopeeTab = window.open(AFFILIATE_URL, '_blank');
 if (shopeeTab) shopeeTab.opener = null;
 } catch (error) {
 console.warn('Không thể mở Shopee:', error);
-}
-if (!downloadUsesManualOpen) {
-try {
-downloadTab = window.open('about:blank', '_blank');
-if (downloadTab) {
-downloadTab.opener = null;
-downloadTab.document.title = 'Tài liệu đang chờ';
-downloadTab.document.body.textContent = 'Quay lại trang thư viện để bắt đầu mở tài liệu.';
-}
-} catch (error) {
-console.warn('Không thể chuẩn bị tab tài liệu:', error);
-}
 }
 if (shopeeTab) {
 try {
@@ -1362,30 +1345,7 @@ if (downloadWaitingForReturn) downloadPageWasLeft = true;
 function startDownloadCountdown() {
 if (!downloadWaitingForReturn || !downloadPageWasLeft || downloadTimer !== null) return;
 downloadWaitingForReturn = false;
-if (downloadUsesManualOpen) {
-const targetUrl = pendingDownloadUrl;
 downloadPageWasLeft = false;
-downloadTab = null;
-document.getElementById('progressMessage').textContent = 'Đã quay lại. Đang mở khóa học…';
-document.getElementById('progressSeconds').textContent = '';
-document.getElementById('downloadFallback').classList.remove('show');
-if (!targetUrl) {
-showMobileDownloadFallback();
-return;
-}
-try {
-window.location.assign(targetUrl);
-} catch (error) {
-console.error('Không thể tự động mở tài liệu:', error);
-showMobileDownloadFallback();
-return;
-}
-downloadFallbackTimer = window.setTimeout(() => {
-downloadFallbackTimer = null;
-showMobileDownloadFallback();
-}, 1500);
-return;
-}
 downloadStartedAt = Date.now();
 document.getElementById('progressMessage').textContent = 'Đang chuẩn bị mở tài liệu…';
 updateDownloadProgress();
@@ -1408,47 +1368,23 @@ window.clearInterval(downloadTimer);
 downloadTimer = null;
 downloadBusy = false;
 document.getElementById('downloadButton').disabled = false;
-if (!downloadTab || downloadTab.closed) {
-downloadTab = null;
-document.getElementById('progressMessage').textContent = downloadShopeeOpened
-? 'Trình duyệt đã chặn tab tài liệu.'
-: 'Shopee và tab tài liệu đều bị chặn.';
-document.getElementById('progressSeconds').textContent = '';
-document.getElementById('downloadFallback').classList.add('show');
-pendingDownloadUrl = null;
-return;
-}
-
 try {
-downloadTab.location.href = pendingDownloadUrl;
-downloadTab = null;
+window.location.assign(pendingDownloadUrl);
 pendingDownloadUrl = null;
-closePopup();
-showToast(downloadShopeeOpened
-? 'Đang mở tài liệu ở tab mới.'
-: 'Tài liệu đã mở; Shopee có thể đã bị trình duyệt chặn.');
 } catch (error) {
-console.error('Không thể mở tài liệu:', error);
-downloadTab = null;
-document.getElementById('progressMessage').textContent = 'Không thể chuyển đến tài liệu.';
-document.getElementById('progressSeconds').textContent = '';
-document.getElementById('downloadFallback').classList.add('show');
+console.error('Không thể tự động mở tài liệu:', error);
+showDownloadFallback();
 pendingDownloadUrl = null;
 }
 }
 
 function cancelDownload() {
 if (downloadTimer !== null) window.clearInterval(downloadTimer);
-if (downloadFallbackTimer !== null) window.clearTimeout(downloadFallbackTimer);
 downloadTimer = null;
-downloadFallbackTimer = null;
 downloadBusy = false;
 downloadWaitingForReturn = false;
 downloadPageWasLeft = false;
-downloadUsesManualOpen = false;
 pendingDownloadUrl = null;
-if (downloadTab && !downloadTab.closed) downloadTab.close();
-downloadTab = null;
 document.getElementById('downloadButton').disabled = false;
 document.getElementById('downloadProgress').classList.remove('show');
 document.getElementById('downloadFallback').classList.remove('show');
@@ -1457,12 +1393,10 @@ document.getElementById('progressTrack').setAttribute('aria-valuenow', '0');
 document.getElementById('downloadButton').focus();
 }
 
-function showMobileDownloadFallback() {
+function showDownloadFallback() {
 downloadBusy = false;
-downloadUsesManualOpen = false;
-pendingDownloadUrl = null;
 document.getElementById('downloadButton').disabled = false;
-document.getElementById('progressMessage').textContent = 'Không thể tự động mở khóa học. Chạm vào liên kết bên dưới để tiếp tục.';
+document.getElementById('progressMessage').textContent = 'Không thể tự động mở tài liệu. Chạm vào liên kết bên dưới để tiếp tục.';
 document.getElementById('progressSeconds').textContent = '';
 document.getElementById('downloadProgress').classList.remove('show');
 document.getElementById('downloadFallback').classList.add('show');
@@ -1470,7 +1404,6 @@ document.getElementById('downloadFallback').classList.add('show');
 
 function resetDownloadUI() {
 if (downloadBusy) cancelDownload();
-downloadUsesManualOpen = false;
 document.getElementById('downloadButton').disabled = false;
 document.getElementById('downloadProgress').classList.remove('show');
 document.getElementById('downloadFallback').classList.remove('show');
@@ -1661,13 +1594,6 @@ if (document.visibilityState === 'hidden') {
 markDownloadPageLeft();
 } else {
 startDownloadCountdown();
-}
-});
-
-window.addEventListener('pagehide', () => {
-if (downloadFallbackTimer !== null) {
-window.clearTimeout(downloadFallbackTimer);
-downloadFallbackTimer = null;
 }
 });
 
